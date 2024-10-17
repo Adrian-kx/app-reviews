@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,231 +10,167 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="css/index.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-
-    <body>
-        <div class="header">
-            <h2>Hospital Dashboard</h2>
-            <button class="logout-button" onclick="logout()">Sair</button>
+<div class="container mt-4">
+    <!-- Gráfico de levantamento por setor -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Média de Avaliações por Setor</h5>
+                    <canvas id="setorChart"></canvas>
+                </div>
+            </div>
         </div>
 
-        <div class="container">
-            <div class="card-container">
-
-
-                <div class="card">
-                    <h3>Média de Avaliações por Setor</h3>
-                    <div class="chart-container">
-                        <canvas id="avgRatingsChart"></canvas>
-                    </div>
+        <!-- Gráfico geral -->
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Distribuição Geral das Notas</h5>
+                    <canvas id="geralChart"></canvas>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="card">
-                    <h3>Distribuição de Notas</h3>
-                    <div class="chart-container">
-                        <canvas id="ratingsDistributionChart"></canvas>
-                    </div>
+    <!-- Gráfico de média geral por mês -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Média Geral de Avaliações por Mês</h5>
+                    <canvas id="mensalChart"></canvas>
                 </div>
-                <div class="card">
-                    <h3>Resumo de Avaliações</h3>
-                    <table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de médias -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Médias por Setor</h5>
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Setor</th>
-                                <th>Avaliações Positivas</th> 
-                                <th>Avaliações Neutras</th>
-                                <th>Avaliações Negativas</th>
+                                <th>Média</th>
                             </tr>
                         </thead>
-                        <tbody id="tableBody"></tbody>
+                        <tbody id="mediaTable"></tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <script>
-            const data = [{
-                    name: "Recepção",
-                    reviews: [{
-                        note: 8
-                    }, {
-                        note: 6
-                    }, {
-                        note: 9
-                    }]
-                },
-                {
-                    name: "Administração",
-                    reviews: [{
-                        note: 2
-                    }, {
-                        note: 4
-                    }, {
-                        note: 5
-                    }]
-                },
-                {
-                    name: "Enfermagem",
-                    reviews: [{
-                        note: 9
-                    }, {
-                        note: 7
-                    }, {
-                        note: 8
-                    }]
-                },
-                {
-                    name: "Médicos",
-                    reviews: [{
-                        note: 10
-                    }, {
-                        note: 9
-                    }, {
-                        note: 7
-                    }]
-                },
-                {
-                    name: "UTI",
-                    reviews: [{
-                        note: 9
-                    }, {
-                        note: 10
-                    }, {
-                        note: 8
-                    }]
-                },
-                {
-                    name: "Alimentação",
-                    reviews: [{
-                        note: 6
-                    }, {
-                        note: 5
-                    }, {
-                        note: 7
-                    }]
-                }
-            ];
+    </div>
+</div>
 
-            const POSITIVE_THRESHOLD = 7;
-            const NEUTRAL_THRESHOLD = 5;
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-            function populateTable(data) {
-                const tableBody = document.getElementById('tableBody');
-                tableBody.innerHTML = data.map(item => {
-                    const {
-                        positive,
-                        neutral,
-                        negative
-                    } = calculateRatingsDistribution(item.reviews);
-                    return `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>${positive}</td>
-                        <td>${neutral}</td>
-                        <td>${negative}</td>
-                    </tr>
-                `;
-                }).join('');
+<!-- Chart.js Script -->
+<script>
+    const datas = [
+        { name: "Recepção", reviews: [{ note: 8 }, { note: 6 }, { note: 9 }] },
+        { name: "Administração", reviews: [{ note: 2 }, { note: 4 }, { note: 5 }, { note: 5 }] },
+        { name: "Enfermagem", reviews: [{ note: 9 }, { note: 7 }, { note: 8 }] },
+        { name: "Médicos", reviews: [{ note: 10 }, { note: 9 }, { note: 7 }] },
+        { name: "UTI", reviews: [{ note: 9 }, { note: 10 }, { note: 8 }] },
+        { name: "Alimentação", reviews: [{ note: 6 }, { note: 5 }, { note: 7 }] }
+    ];
+
+    // Calculando a média por setor
+    const setores = datas.map(item => item.name);
+    const medias = datas.map(item => {
+        const total = item.reviews.reduce((sum, review) => sum + review.note, 0);
+        return (total / item.reviews.length).toFixed(2);
+    });
+
+    // Gráfico de levantamento por setor
+    const ctxSetor = document.getElementById('setorChart').getContext('2d');
+    new Chart(ctxSetor, {
+        type: 'bar',
+        data: {
+            labels: setores,
+            datasets: [{
+                label: 'Média das Avaliações',
+                data: medias,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
             }
+        }
+    });
 
-            function calculateAvgRatings(data) {
-                return data.map(item => {
-                    const total = item.reviews.reduce((sum, review) => sum + review.note, 0);
-                    const avg = total / item.reviews.length;
-                    return avg.toFixed(1);
-                });
-            }
-
-            function calculateRatingsDistribution(reviews) {
-                return reviews.reduce((acc, review) => {
-                    if (review.note >= POSITIVE_THRESHOLD) acc.positive++;
-                    else if (review.note >= NEUTRAL_THRESHOLD) acc.neutral++;
-                    else acc.negative++;
+    // Distribuição geral das notas
+    const allNotas = datas.flatMap(item => item.reviews.map(review => review.note));
+    const ctxGeral = document.getElementById('geralChart').getContext('2d');
+    new Chart(ctxGeral, {
+        type: 'bar',
+        data: {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            datasets: [{
+                label: 'Frequência das Notas',
+                data: allNotas.reduce((acc, note) => {
+                    acc[note - 1] = (acc[note - 1] || 0) + 1;
                     return acc;
-                }, {
-                    positive: 0,
-                    neutral: 0,
-                    negative: 0
-                });
+                }, new Array(10).fill(0)),
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
             }
+        }
+    });
 
-            function createBarChart(labels, data) {
-                new Chart(document.getElementById('avgRatingsChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Média de Avaliações',
-                            data: data,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                max: 10
-                            }
-                        }
-                    }
-                });
+    // Gráfico de média geral por mês (dados fictícios)
+    const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho"];
+    const mediaMensal = [7.5, 6.8, 7.9, 8.2, 7.1, 7.8];
+    const ctxMensal = document.getElementById('mensalChart').getContext('2d');
+    new Chart(ctxMensal, {
+        type: 'line',
+        data: {
+            labels: meses,
+            datasets: [{
+                label: 'Média Mensal',
+                data: mediaMensal,
+                fill: false,
+                borderColor: 'rgba(153, 102, 255, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
             }
+        }
+    });
 
-            function createPieChart(distribution) {
-                new Chart(document.getElementById('ratingsDistributionChart'), {
-                    type: 'pie',
-                    data: {
-                        labels: ['Positivas (>= 7)', 'Neutras (5-6)', 'Negativas (< 5)'],
-                        datasets: [{
-                            data: [distribution.positive, distribution.neutral, distribution.negative],
-                            backgroundColor: ['#4caf50', '#ffeb3b', '#f44336']
-                        }]
-                    }
-                });
-            }
-
-            function calculateGlobalDistribution(data) {
-                return data.reduce((acc, item) => {
-                    const {
-                        positive,
-                        neutral,
-                        negative
-                    } = calculateRatingsDistribution(item.reviews);
-                    acc.positive += positive;
-                    acc.neutral += neutral;
-                    acc.negative += negative;
-                    return acc;
-                }, {
-                    positive: 0,
-                    neutral: 0,
-                    negative: 0
-                });
-            }
-
-            function initDashboard() {
-                const avgRatings = calculateAvgRatings(data);
-                const labels = data.map(item => item.name);
-                const globalDistribution = calculateGlobalDistribution(data);
-
-                populateTable(data);
-                createBarChart(labels, avgRatings);
-                createPieChart(globalDistribution);
-            }
-
-            // Inicializa o dashboard
-            document.addEventListener('DOMContentLoaded', initDashboard);
-
-            // Função de logout simulada
-            function logout() {
-                alert('Você saiu da sessão.');
-                window.location.href = '/login'; // Redireciona para a página de login (ajustar conforme necessário)
-            }
-        </script>
-    </body>
-
+    // Inserir dados da tabela
+    const mediaTable = document.getElementById('mediaTable');
+    setores.forEach((setor, index) => {
+        const row = `<tr><td>${setor}</td><td>${medias[index]}</td></tr>`;
+        mediaTable.innerHTML += row;
+    });
+</script>
+</body>
 </html>

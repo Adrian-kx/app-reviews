@@ -2,48 +2,35 @@
   font-family: "Montserrat", sans-serif;
 }
 
-body,
-html {
+html, body {
   padding: 0;
   margin: 0;
+  height: 100%;
+}
+
+.navbar {
+  padding: 1rem;
 }
 
 .container {
   padding: 20px;
 }
-.header {
-  background-color: #001529;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  color: white;
-}
-/* f0f7fd */
-.chart-container {
-  height: 100%;
-  padding: 20px;
-}
-.card-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+
 .card {
-  max-width: 48%;
-  box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
+
 .logout-button {
   cursor: pointer;
-  color: #ffffff;
   background-color: #f5222d;
-  padding: 8px 16px;
   border: none;
+  padding: 10px 20px;
   border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #d11a1a;
 }
