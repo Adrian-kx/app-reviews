@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Recepção",
+        "reviews": [
+            { "note": 8, "text": "Moça da recepção muito simpática" },
+            { "note": 6, "text": "Atendimento razoável, porém demorado." },
+            { "note": 9, "text": "Equipe da recepção muito atenciosa e prestativa." }
+        ]
+    },
+    {
+        "name": "Administração",
+        "reviews": [
+            { "note": 2, "text": "Pessoal da gerência muito arrogante!" },
+            { "note": 4, "text": "Processos burocráticos demorados e falta de comunicação clara." },
+            { "note": 5, "text": "Administração precisa melhorar na eficiência e simpatia." }
+        ]
+    }
+]
