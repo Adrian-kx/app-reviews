@@ -4,7 +4,7 @@ use \Firebase\JWT\JWT;
 use Dotenv\Dotenv; 
 
 // Carregar o .env
-$dotenv = Dotenv::createImmutable(__DIR__ . '../../'); 
+$dotenv = Dotenv::createImmutable(__DIR__ . '../../../'); 
 $dotenv->load();
 
 // Obter a chave secreta do .env
@@ -35,7 +35,7 @@ $refresh_tokens = load_refresh_tokens();
 
 // Usuários simulados
 $users = [
-    'admin' => password_hash('123456', PASSWORD_DEFAULT), // Senha hashada
+    'admin' => password_hash('123456', PASSWORD_DEFAULT)
 ];
 
 // Decodificar o corpo da requisição JSON

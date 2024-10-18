@@ -21,7 +21,7 @@
     <header>
         <header class="container mt-2">
             <img src="./../assets/logo-white.png" alt="Logo">
-            <h2 class="card-title">Dashbord das avaliações</h2>
+            <h2 class="card-title">Dashboard das avaliações</h2>
             <button class="logout-button">Sair</button>
         </header>
     </header>

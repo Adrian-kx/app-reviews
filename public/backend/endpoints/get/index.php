@@ -5,7 +5,7 @@ use \Firebase\JWT\Key;
 use Dotenv\Dotenv; 
 
 // Carregar o .env
-$dotenv = Dotenv::createImmutable(__DIR__ . '../../../../'); 
+$dotenv = Dotenv::createImmutable(__DIR__ . '../../../../../'); 
 $dotenv->load();
 
 // Obter a chave secreta do .env
