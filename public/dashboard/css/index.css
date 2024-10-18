@@ -8,7 +8,7 @@ html, body {
   height: 100%;
   background-color: rgb(240, 247, 253);
 }
-.navbar {
+header.container {
   background-color: transparent;
   display: flex;
   justify-content: space-between;
@@ -16,8 +16,8 @@ html, body {
   align-items: center;
 }
 
-.navbar img {
-  height: 50px;
+header.container img {
+  height: 100px;
 }
 .container {
   padding: 20px;
