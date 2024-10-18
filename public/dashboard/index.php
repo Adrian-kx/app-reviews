@@ -19,10 +19,11 @@
 
 <body>
     <header>
-        <nav class="navbar">
+        <header class="container mt-2">
             <img src="./../assets/logo-white.png" alt="Logo">
+            <h2 class="card-title">Dashbord das avaliações</h2>
             <button class="logout-button">Sair</button>
-        </nav>
+        </header>
     </header>
     <div class="container mt-4">
         <div class="row">
