@@ -1,12 +1,8 @@
 {
-    "name": "clersonklaumannjunior/app-reviews",
-    "require": {
-        "firebase/php-jwt": "^6.10",
-        "vlucas/phpdotenv": "^5.6"
-    },
+    "name": "adrianxavier/app-reviews",
     "autoload": {
         "psr-4": {
-            "Clersonklaumannjunior\\AppReviews\\": "src/"
+            "Adrianxavier\\AppReviews\\": "src/"
         }
     },
     "authors": [
@@ -14,5 +10,6 @@
             "name": "Ignite Corp.",
             "email": "adriankxavier@gmail.com"
         }
-    ]
+    ],
+    "require": {}
 }
