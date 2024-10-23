@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.9.0/localforage.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,29 +20,36 @@
 
 <body>
     <div id="app">
-        <div id="loginContainer" class="container mt-4">
+        <div id="loginContainer" style="display: none;" class="container mt-4">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Login</h5>
-                            <form id="loginForm">
-                                <div class="mb-3">
-                                    <label for="username" class="form-label">Usuário</label>
-                                    <input type="text" class="form-control" id="username" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="password" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Entrar</button>
-                            </form>
-                            <div id="loginMessage" class="mt-3"></div>
+                        <div class="card-body d-flex align-items-center">
+                            <div class="me-3 logo-login">
+                                <img src="./../assets/logo-white.png" alt="Logo" class="logo-login-image">
+                            </div>
+                            <div class="form-login-style">
+                                <h5 class="card-title">Login</h5>
+                                <form id="loginForm">
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Usuário</label>
+                                        <input type="text" class="form-control" id="username" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Senha</label>
+                                        <input type="password" class="form-control" id="password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Entrar</button>
+                                </form>
+                                <div id="loginMessage" class="mt-3"></div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div id="dashboardContainer" style="display: none;">
             <header>
@@ -76,8 +84,10 @@
                     <div class="col-md-12">
                         <div class="card shadow-sm">
                             <div class="card-body">
-                                <h5 class="card-title">Média Geral de Avaliações por Mês</h5>
-                                <canvas id="mensalChart"></canvas>
+                                <h5 class="card-title ">Média Geral de Avaliações por Mês</h5>
+                                <div style="padding: 25px 200px !important;">
+                                    <canvas id="mensalChart"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -152,6 +162,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/index.js"></script>
     <script src="./js/login_validate.js"></script>
+    <script src="./js/logout.js"></script>
 
 
 </body>

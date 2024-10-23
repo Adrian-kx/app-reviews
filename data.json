@@ -1,18 +1,127 @@
 [
-    {
-        "name": "Recepção",
-        "reviews": [
-            { "note": 8, "text": "Moça da recepção muito simpática" },
-            { "note": 6, "text": "Atendimento razoável, porém demorado." },
-            { "note": 9, "text": "Equipe da recepção muito atenciosa e prestativa." }
-        ]
-    },
-    {
-        "name": "Administração",
-        "reviews": [
-            { "note": 2, "text": "Pessoal da gerência muito arrogante!" },
-            { "note": 4, "text": "Processos burocráticos demorados e falta de comunicação clara." },
-            { "note": 5, "text": "Administração precisa melhorar na eficiência e simpatia." }
-        ]
-    }
+  {
+    "name": "Recepção",
+    "reviews": [
+      {
+        "note": 8,
+        "date": "2024-10-01",
+        "text": "Moça da recepção muito simpática"
+      },
+      {
+        "note": 6,
+        "date": "2024-10-05",
+        "text": "Atendimento razoável, porém demorado."
+      },
+      {
+        "note": 9,
+        "date": "2024-10-12",
+        "text": "Equipe da recepção muito atenciosa e prestativa."
+      }
+    ]
+  },
+  {
+    "name": "Administração",
+    "reviews": [
+      {
+        "note": 2,
+        "date": "2024-09-23",
+        "text": "Pessoal da gerência muito arrogante!"
+      },
+      {
+        "note": 4,
+        "date": "2024-10-06",
+        "text": "Processos burocráticos demorados e falta de comunicação clara."
+      },
+      {
+        "note": 5,
+        "date": "2024-10-10",
+        "text": "Administração precisa melhorar na eficiência e simpatia."
+      },
+      {
+        "note": 5,
+        "date": "2024-10-13",
+        "text": "Administração precisa melhorar na eficiência e simpatia."
+      }
+    ]
+  },
+  {
+    "name": "Enfermagem",
+    "reviews": [
+      {
+        "note": 9,
+        "date": "2024-10-02",
+        "text": "Enfermeiras atenciosas e bem preparadas."
+      },
+      {
+        "note": 7,
+        "date": "2024-10-07",
+        "text": "Bom atendimento, mas faltam equipamentos."
+      },
+      {
+        "note": 8,
+        "date": "2024-10-11",
+        "text": "Equipe de enfermagem muito carinhosa e profissional."
+      }
+    ]
+  },
+  {
+    "name": "Médicos",
+    "reviews": [
+      {
+        "note": 10,
+        "date": "2024-10-03",
+        "text": "Médicos altamente qualificados e atenciosos."
+      },
+      {
+        "note": 9,
+        "date": "2024-10-08",
+        "text": "Fui muito bem atendido, explicações detalhadas e claras."
+      },
+      {
+        "note": 7,
+        "date": "2024-10-14",
+        "text": "Bom atendimento, mas houve atraso na consulta."
+      }
+    ]
+  },
+  {
+    "name": "UTI",
+    "reviews": [
+      {
+        "note": 9,
+        "date": "2024-10-04",
+        "text": "Cuidado excelente com os pacientes, ambiente bem equipado."
+      },
+      {
+        "note": 10,
+        "date": "2024-10-09",
+        "text": "Equipe da UTI salvou a vida do meu familiar, excelente cuidado."
+      },
+      {
+        "note": 8,
+        "date": "2024-10-15",
+        "text": "Boa estrutura, mas a comunicação com os familiares poderia ser melhor."
+      }
+    ]
+  },
+  {
+    "name": "Alimentação",
+    "reviews": [
+      {
+        "note": 6,
+        "date": "2024-10-16",
+        "text": "A comida estava razoável, mas poderia ser mais variada."
+      },
+      {
+        "note": 5,
+        "date": "2024-10-11",
+        "text": "Serviço de alimentação lento e pouca variedade de pratos."
+      },
+      {
+        "note": 7,
+        "date": "2024-10-14",
+        "text": "Comida saudável e balanceada, mas com porções pequenas."
+      }
+    ]
+  }
 ]
