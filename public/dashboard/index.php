@@ -20,15 +20,15 @@
 
 <body>
     <div id="app">
-        <div id="loginContainer" style="display: none;" class="container mt-4">
+        <div id="loginContainer" style="display: none;align-self:center;margin-top: 25vh;height: 50vh">
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="card shadow-sm">
-                        <div class="card-body d-flex align-items-center">
-                            <div class="me-3 logo-login">
-                                <img src="./../assets/logo-white.png" alt="Logo" class="logo-login-image">
+                        <div  style="display: flex; justify-content: space-around; flex-direction: row; align-items:center;padding:20px">
+                            <div style="width: 50%;padding: 50px">
+                                <img src="./../assets/logo-white.png" alt="Logo" style="max-width: 100%; width: 100%;" >
                             </div>
-                            <div class="form-login-style">
+                            <div style="max-width: 50%; width: 50%;">
                                 <h5 class="card-title">Login</h5>
                                 <form id="loginForm">
                                     <div class="mb-3">

@@ -2,10 +2,9 @@
   font-family: "Montserrat", sans-serif;
 }
 
-html, body {
+body {
   padding: 0;
   margin: 0;
-  height: 100%;
   background-color: rgb(240, 247, 253);
 }
 header.container {
