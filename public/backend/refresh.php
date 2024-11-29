@@ -1,5 +1,6 @@
 <?php
 require '../../vendor/autoload.php'; 
+require './utils/db.php'; // Conexão ao banco
 use \Firebase\JWT\JWT;
 use Dotenv\Dotenv; 
 
@@ -10,37 +11,30 @@ $dotenv->load();
 // Obter a chave secreta do .env
 $secret_key = $_ENV['JWT_SECRET'] ?? 'default_secret_key'; 
 
-// Arquivo JSON para armazenar os refresh tokens
-$refresh_token_file = 'refresh_tokens.json';
+try {
+    // Receber o refresh token do cliente
+    $input_data = json_decode(file_get_contents('php://input'), true);
 
-// Função para carregar os refresh tokens do arquivo JSON
-function load_refresh_tokens() {
-    global $refresh_token_file;
-    if (file_exists($refresh_token_file)) {
-        return json_decode(file_get_contents($refresh_token_file), true);
-    } else {
-        return []; // Se o arquivo não existir, retorna um array vazio
+    // Verifique se o refresh_token foi enviado
+    if (!isset($input_data['refresh_token'])) {
+        throw new Exception("Necessário refresh token no body.", 400);
     }
-}
 
-// Carrega os refresh tokens existentes
-$refresh_tokens = load_refresh_tokens();
+    $refresh_token = $input_data['refresh_token'];
 
-// Receber o refresh token do cliente (garantindo que o input seja decodificado corretamente)
-$input_data = json_decode(file_get_contents('php://input'), true);
+    // Conectar ao banco de dados
+    $pdo = getPDOConnection();
 
-// Verifique se o refresh_token foi enviado
-if (!isset($input_data['refresh_token'])) {
-    http_response_code(400);
-    echo json_encode(["message" => "Necessário refresh token no body."]);
-    exit;
-}
+    // Verificar se o refresh token existe e ainda é válido
+    $stmt = $pdo->prepare("SELECT username, expires_at FROM public.refresh_tokens WHERE token = :token");
+    $stmt->execute([':token' => $refresh_token]);
+    $token_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$refresh_token = $input_data['refresh_token'];
+    if (!$token_data || strtotime($token_data['expires_at']) <= time()) {
+        throw new Exception("O refresh token está expirado ou inválido.", 401);
+    }
 
-// Verificar se o refresh token existe e ainda é válido
-if (isset($refresh_tokens[$refresh_token]) && $refresh_tokens[$refresh_token]['expires_at'] > time()) {
-    $username = $refresh_tokens[$refresh_token]['username'];
+    $username = $token_data['username'];
 
     // Gerar um novo JWT
     $issued_at = time();
@@ -61,9 +55,9 @@ if (isset($refresh_tokens[$refresh_token]) && $refresh_tokens[$refresh_token]['e
         "message" => "Token refreshed",
         "jwt" => $jwt
     ]);
-} else {
-    // Refresh token inválido ou expirado
-    http_response_code(401);
-    echo json_encode(["message" => "O refresh token está expirado ou mal formatado."]);
+} catch (Exception $e) {
+    http_response_code($e->getCode() ?: 500);
+    echo json_encode([
+        "message" => $e->getMessage()
+    ]);
 }
-?>
