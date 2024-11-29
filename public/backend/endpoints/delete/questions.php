@@ -3,11 +3,20 @@ require '../../../../bootstrap.php';
 require '../../utils/jwt.php';
 require '../../utils/db.php';
 
-header("Content-Type: application/json");
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Lida com requisições OPTIONS (preflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 try {
     $headers = apache_request_headers();
@@ -18,10 +27,12 @@ try {
     $authHeader = $headers['Authorization'];
     $token = str_replace('Bearer ', '', $authHeader);
 
+    // Validação do JWT
     $decoded = validateJWT($token);
 
     // Decodificar os dados da requisição
     $input_data = json_decode(file_get_contents('php://input'), true);
+    var_dump($input_data); // Depurar os dados recebidos
 
     // Validar campos obrigatórios
     if (!isset($input_data['id'])) {
@@ -32,14 +43,26 @@ try {
 
     // Conectar ao banco de dados
     $pdo = getPDOConnection();
+    if (!$pdo) {
+        throw new Exception("Não foi possível conectar ao banco de dados.", 500);
+    }
 
-    // Verificar se o registro existe antes de excluir
+    // Verificar se o registro existe
+    $stmt = $pdo->prepare("SELECT * FROM public.questions WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    $record = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$record) {
+        throw new Exception("Nenhuma questão encontrada com o ID fornecido.", 404);
+    }
+
+    // Excluir o registro
     $stmt = $pdo->prepare("DELETE FROM public.questions WHERE id = :id");
     $stmt->execute([':id' => $id]);
 
     // Verificar se alguma linha foi afetada
     if ($stmt->rowCount() === 0) {
-        throw new Exception("Nenhuma questão encontrada com o ID fornecido.", 404);
+        throw new Exception("Nenhuma linha foi afetada. O registro pode não existir.", 404);
     }
 
     echo json_encode([
@@ -55,4 +78,5 @@ try {
         "message" => $e->getMessage()
     ]);
 }
+
 ?>

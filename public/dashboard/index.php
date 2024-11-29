@@ -24,9 +24,9 @@
             <div class="row">
                 <div class="col-md-6 offset-md-3">
                     <div class="card shadow-sm">
-                        <div  style="display: flex; justify-content: space-around; flex-direction: row; align-items:center;padding:20px">
+                        <div style="display: flex; justify-content: space-around; flex-direction: row; align-items:center;padding:20px">
                             <div style="width: 50%;padding: 50px">
-                                <img src="./../assets/logo-white.png" alt="Logo" style="max-width: 100%; width: 100%;" >
+                                <img src="./../assets/logo-white.png" alt="Logo" style="max-width: 100%; width: 100%;">
                             </div>
                             <div style="max-width: 50%; width: 50%;">
                                 <h5 class="card-title">Login</h5>
@@ -56,7 +56,10 @@
                 <header class="container mt-2">
                     <img src="./../assets/logo-white.png" alt="Logo">
                     <h2 class="card-title">Dashboard das avaliações</h2>
-                    <button class="logout-button">Sair</button>
+                    <div>
+                        <button id="manageQuestionsButton" class="question-button-page">Gerenciar perguntas</button>
+                        <button class="logout-button">Sair</button>
+                    </div>
                 </header>
             </header>
             <div class="container mt-4">
@@ -161,8 +164,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./js/index.js"></script>
-    <script src="./js/login_validate.js"></script>
-    <script src="./js/logout.js"></script>
+
 
 
 </body>

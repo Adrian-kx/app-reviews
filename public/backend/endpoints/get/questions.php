@@ -1,16 +1,21 @@
 <?php
-require '../../../../bootstrap.php';
-require '../../utils/jwt.php';
-require '../../utils/db.php';
+require_once '../../../../bootstrap.php';
+require_once '../../utils/jwt.php';
+require_once '../../utils/db.php';
 
 header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// Lida com requisições OPTIONS (preflight)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 try {
-    $headers = apache_request_headers();
+    $headers = getallheaders();
     if (!isset($headers['Authorization'])) {
         throw new Exception("Você não tem permissão para isso.", 401);
     }
@@ -18,11 +23,13 @@ try {
     $authHeader = $headers['Authorization'];
     $token = str_replace('Bearer ', '', $authHeader);
 
+    // Validação do JWT
     $decoded = validateJWT($token);
 
+    // Conexão com o banco de dados
     $pdo = getPDOConnection();
 
-    // Consultar a tabela questions
+    // Consulta na tabela questions
     $stmt = $pdo->query("SELECT * FROM public.questions");
     $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

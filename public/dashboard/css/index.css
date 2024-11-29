@@ -40,3 +40,18 @@ header.container img {
 .logout-button:hover {
   background-color: #d11a1a;
 }
+
+.question-button-page {
+  cursor: pointer;
+  background-color: #2622f5aa;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.question-button-page:hover {
+  background-color: #2622f5;
+}

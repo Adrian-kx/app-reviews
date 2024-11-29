@@ -15,7 +15,6 @@
             <h1>Obrigado por sua participação!</h1>
             <p>Você será redirecionado para o início em breve.</p>
 
-            <!-- Botão para voltar manualmente ao início -->
             <button class="btn btn-primary mt-3" onclick="window.location.href='index.php'">Voltar ao Início Agora</button>
         </div>
     </div>

@@ -4,11 +4,16 @@ require '../../utils/jwt.php';
 require '../../utils/db.php';
 
 header("Content-Type: application/json");
-
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS, GET, PUT");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 try {
     $headers = apache_request_headers();
     if (!isset($headers['Authorization'])) {
@@ -24,10 +29,12 @@ try {
     $input_data = json_decode(file_get_contents('php://input'), true);
 
     // Validar campos obrigatórios
-    if (!isset($input_data['id']) || !isset($input_data['question'])) {
-        throw new Exception("Os campos 'id' e 'question' são obrigatórios.", 400);
+    if (!isset($input_data['id'])) {
+        throw new Exception("O campo 'id' é obrigatório.", 400);
     }
-
+    if (!isset($input_data['question'])) {
+        throw new Exception("O campo 'question' é obrigatório.", 400);
+    }
     $id = $input_data['id'];
     $question = $input_data['question'];
     $type = isset($input_data['type']) ? $input_data['type'] : null;

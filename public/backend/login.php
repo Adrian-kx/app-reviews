@@ -4,11 +4,20 @@ require './utils/db.php'; // Conexão ao banco
 use \Firebase\JWT\JWT;
 use Dotenv\Dotenv;
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Responder a requisições OPTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204); // Sem conteúdo
+    exit;
+}
+
 // Carregar o .env
 $dotenv = Dotenv::createImmutable(__DIR__ . '../../../');
 $dotenv->load();
 
-// Obter a chave secreta do .env
 $secret_key = $_ENV['JWT_SECRET'] ?? 'default_secret_key';
 
 // Decodificar o corpo da requisição JSON
