@@ -16,15 +16,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 try {
     $headers = getallheaders();
-    if (!isset($headers['Authorization'])) {
-        throw new Exception("Você não tem permissão para isso.", 401);
+    $decoded = null;
+
+    // Verifica se o JWT foi enviado no cabeçalho
+    if (isset($headers['Authorization'])) {
+        $authHeader = $headers['Authorization'];
+        $token = str_replace('Bearer ', '', $authHeader);
+
+        // Tenta validar o JWT, mas continua se falhar
+        try {
+            $decoded = validateJWT($token);
+        } catch (Exception $e) {
+            // JWT inválido ou ausente não impede a execução
+            $decoded = null;
+        }
     }
-
-    $authHeader = $headers['Authorization'];
-    $token = str_replace('Bearer ', '', $authHeader);
-
-    // Validação do JWT
-    $decoded = validateJWT($token);
 
     // Conexão com o banco de dados
     $pdo = getPDOConnection();
@@ -39,7 +45,8 @@ try {
 
     echo json_encode([
         "status" => "success",
-        "data" => $questions
+        "data" => $questions,
+        "user" => $decoded, // Retorna o usuário decodificado, se o JWT for válido
     ]);
 } catch (Exception $e) {
     http_response_code($e->getCode() ?: 500);
@@ -48,4 +55,3 @@ try {
         "error" => $e->getCode() === 500 ? "Erro interno no servidor" : $e->getMessage()
     ]);
 }
-?>
